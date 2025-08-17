@@ -10,7 +10,7 @@ use {
         hash::Hash,
         instruction::CompiledInstruction,
         message::v0::MessageAddressTableLookup,
-        native_token::lamports_to_sol,
+        native_token::lamports_to_rox,
         program_utils::limited_deserialize,
         pubkey::Pubkey,
         signature::Signature,
@@ -53,8 +53,8 @@ pub fn build_balance_message_with_config(
     let value = if config.use_lamports_unit {
         lamports.to_string()
     } else {
-        let sol = lamports_to_sol(lamports);
-        let sol_str = format!("{sol:.9}");
+        let rox = lamports_to_rox(lamports);
+        let sol_str = format!("{rox:.9}");
         if config.trim_trailing_zeros {
             sol_str
                 .trim_end_matches('0')
@@ -69,7 +69,7 @@ pub fn build_balance_message_with_config(
             let ess = if lamports == 1 { "" } else { "s" };
             format!(" lamport{ess}")
         } else {
-            " SOL".to_string()
+            " ROX".to_string()
         }
     } else {
         "".to_string()
@@ -529,8 +529,8 @@ fn write_rewards<W: io::Write>(
                         "-".to_string()
                     },
                     sign,
-                    lamports_to_sol(reward.lamports.unsigned_abs()),
-                    lamports_to_sol(reward.post_balance)
+                    lamports_to_rox(reward.lamports.unsigned_abs()),
+                    lamports_to_rox(reward.post_balance)
                 )?;
             }
         }
@@ -555,7 +555,7 @@ fn write_status<W: io::Write>(
 }
 
 fn write_fees<W: io::Write>(w: &mut W, transaction_fee: u64, prefix: &str) -> io::Result<()> {
-    writeln!(w, "{}  Fee: ◎{}", prefix, lamports_to_sol(transaction_fee))
+    writeln!(w, "{}  Fee: ◎{}", prefix, lamports_to_rox(transaction_fee))
 }
 
 fn write_balances<W: io::Write>(
@@ -579,7 +579,7 @@ fn write_balances<W: io::Write>(
                 "{}  Account {} balance: ◎{}",
                 prefix,
                 i,
-                lamports_to_sol(*pre)
+                lamports_to_rox(*pre)
             )?;
         } else {
             writeln!(
@@ -587,8 +587,8 @@ fn write_balances<W: io::Write>(
                 "{}  Account {} balance: ◎{} -> ◎{}",
                 prefix,
                 i,
-                lamports_to_sol(*pre),
-                lamports_to_sol(*post)
+                lamports_to_rox(*pre),
+                lamports_to_rox(*post)
             )?;
         }
     }

@@ -9,7 +9,7 @@ use {
     solana_cli_output::{CliAddressLookupTable, CliAddressLookupTableCreated, OutputFormat},
     solana_faucet::faucet::run_local_faucet,
     solana_sdk::{
-        native_token::LAMPORTS_PER_SOL,
+        native_token::LAMPORTS_PER_ROX,
         pubkey::Pubkey,
         signature::{Keypair, Signer},
     },
@@ -32,10 +32,10 @@ fn test_cli_create_extend_and_freeze_address_lookup_table() {
     config.signers = vec![&keypair];
     config.output_format = OutputFormat::JsonCompact;
 
-    // Airdrop SOL for transaction fees
+    // Airdrop ROX for transaction fees
     config.command = CliCommand::Airdrop {
         pubkey: None,
-        lamports: 10 * LAMPORTS_PER_SOL,
+        lamports: 10 * LAMPORTS_PER_ROX,
     };
     process_command(&config).unwrap();
 
@@ -147,10 +147,10 @@ fn test_cli_create_and_deactivate_address_lookup_table() {
     config.signers = vec![&keypair];
     config.output_format = OutputFormat::JsonCompact;
 
-    // Airdrop SOL for transaction fees
+    // Airdrop ROX for transaction fees
     config.command = CliCommand::Airdrop {
         pubkey: None,
-        lamports: 10 * LAMPORTS_PER_SOL,
+        lamports: 10 * LAMPORTS_PER_ROX,
     };
     process_command(&config).unwrap();
 

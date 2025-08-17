@@ -32,7 +32,7 @@ use {
     solana_sdk::{
         clock::Slot,
         epoch_schedule::EpochSchedule,
-        native_token::LAMPORTS_PER_SOL,
+        native_token::LAMPORTS_PER_ROX,
         pubkey::Pubkey,
         signature::{Keypair, Signer},
         system_transaction,
@@ -92,8 +92,8 @@ impl TestEnvironment {
 
     #[must_use]
     fn _new(snapshot_config: SnapshotConfig) -> TestEnvironment {
-        const MINT_LAMPORTS: u64 = 100_000 * LAMPORTS_PER_SOL;
-        const STAKE_LAMPORTS: u64 = 100 * LAMPORTS_PER_SOL;
+        const MINT_LAMPORTS: u64 = 100_000 * LAMPORTS_PER_ROX;
+        const STAKE_LAMPORTS: u64 = 100 * LAMPORTS_PER_ROX;
         let bank_snapshots_dir = TempDir::new().unwrap();
         let full_snapshot_archives_dir = TempDir::new().unwrap();
         let incremental_snapshot_archives_dir = TempDir::new().unwrap();

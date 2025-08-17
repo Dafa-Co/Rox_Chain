@@ -1,5 +1,5 @@
 #![cfg(feature = "full")]
-//! Definitions related to Solana over QUIC.
+//! Definitions related to Rox over QUIC.
 use {crate::signer::keypair::Keypair, std::time::Duration};
 
 pub const QUIC_PORT_OFFSET: u16 = 6;

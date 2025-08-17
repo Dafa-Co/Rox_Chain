@@ -1,4 +1,4 @@
-//! The `rpc_service` module implements the Solana JSON RPC service.
+//! The `rpc_service` module implements the Rox JSON RPC service.
 
 use {
     crate::{
@@ -38,7 +38,7 @@ use {
     },
     solana_sdk::{
         exit::Exit, genesis_config::DEFAULT_GENESIS_DOWNLOAD_PATH, hash::Hash,
-        native_token::lamports_to_sol,
+        native_token::lamports_to_rox,
     },
     solana_send_transaction_service::send_transaction_service::{self, SendTransactionService},
     solana_storage_bigtable::CredentialType,
@@ -323,13 +323,13 @@ fn process_rest(bank_forks: &Arc<RwLock<BankForks>>, path: &str) -> Option<Strin
                     .lamports;
             Some(format!(
                 "{}",
-                lamports_to_sol(total_supply - non_circulating_supply)
+                lamports_to_rox(total_supply - non_circulating_supply)
             ))
         }
         "/v0/total-supply" => {
             let bank = bank_forks.read().unwrap().root_bank();
             let total_supply = bank.capitalization();
-            Some(format!("{}", lamports_to_sol(total_supply)))
+            Some(format!("{}", lamports_to_rox(total_supply)))
         }
         _ => None,
     }

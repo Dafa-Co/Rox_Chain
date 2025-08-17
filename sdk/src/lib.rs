@@ -1,7 +1,7 @@
-//! The Solana host and client SDK.
+//! The Rox host and client SDK.
 //!
 //! This is the base library for all off-chain programs that interact with
-//! Solana or otherwise operate on Solana data structures. On-chain programs
+//! Rox or otherwise operate on Rox data structures. On-chain programs
 //! instead use the [`solana-program`] crate, the modules of which are
 //! re-exported by this crate, like the relationship between the Rust
 //! `core` and `std` crates. As much of the functionality of this crate is
@@ -10,17 +10,17 @@
 //!
 //! [`solana-program`]: https://docs.rs/solana-program
 //!
-//! Many of the modules in this crate are primarily of use to the Solana runtime
+//! Many of the modules in this crate are primarily of use to the Rox runtime
 //! itself. Additional crates provide capabilities built on `solana-sdk`, and
 //! many programs will need to link to those crates as well, particularly for
-//! clients communicating with Solana nodes over RPC.
+//! clients communicating with Rox nodes over RPC.
 //!
 //! Such crates include:
 //!
-//! - [`solana-client`] - For interacting with a Solana node via the [JSON-RPC API][json].
-//! - [`solana-cli-config`] - Loading and saving the Solana CLI configuration file.
+//! - [`solana-client`] - For interacting with a Rox node via the [JSON-RPC API][json].
+//! - [`solana-cli-config`] - Loading and saving the Rox CLI configuration file.
 //! - [`solana-clap-utils`] - Routines for setting up the CLI using [`clap`], as
-//!   used by the Solana CLI. Includes functions for loading all types of
+//!   used by the Rox CLI. Includes functions for loading all types of
 //!   signers supported by the CLI.
 //!
 //! [`solana-client`]: https://docs.rs/solana-client

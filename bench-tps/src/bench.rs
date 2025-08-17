@@ -17,7 +17,7 @@ use {
         hash::Hash,
         instruction::{AccountMeta, Instruction},
         message::Message,
-        native_token::Sol,
+        native_token::Rox,
         pubkey::Pubkey,
         signature::{Keypair, Signer},
         system_instruction,
@@ -1140,8 +1140,8 @@ pub fn fund_keypairs<T: 'static + BenchTpsClient + Send + Sync + ?Sized>(
         if funding_key_balance < total + rent {
             error!(
                 "funder has {}, needed {}",
-                Sol(funding_key_balance),
-                Sol(total)
+                Rox(funding_key_balance),
+                Rox(total)
             );
             let latest_blockhash = get_latest_blockhash(client.as_ref());
             if client
@@ -1181,7 +1181,7 @@ mod tests {
             feature_set::FeatureSet,
             fee_calculator::FeeRateGovernor,
             genesis_config::{create_genesis_config, GenesisConfig},
-            native_token::sol_to_lamports,
+            native_token::rox_to_lamports,
             nonce::State,
         },
     };
@@ -1194,7 +1194,7 @@ mod tests {
 
     #[test]
     fn test_bench_tps_bank_client() {
-        let (genesis_config, id) = create_genesis_config(sol_to_lamports(10_000.0));
+        let (genesis_config, id) = create_genesis_config(rox_to_lamports(10_000.0));
         let bank = bank_with_all_features(&genesis_config);
         let client = Arc::new(BankClient::new_shared(bank));
 
@@ -1215,7 +1215,7 @@ mod tests {
 
     #[test]
     fn test_bench_tps_fund_keys() {
-        let (genesis_config, id) = create_genesis_config(sol_to_lamports(10_000.0));
+        let (genesis_config, id) = create_genesis_config(rox_to_lamports(10_000.0));
         let bank = bank_with_all_features(&genesis_config);
         let client = Arc::new(BankClient::new_shared(bank));
         let keypair_count = 20;
@@ -1238,7 +1238,7 @@ mod tests {
 
     #[test]
     fn test_bench_tps_fund_keys_with_fees() {
-        let (mut genesis_config, id) = create_genesis_config(sol_to_lamports(10_000.0));
+        let (mut genesis_config, id) = create_genesis_config(rox_to_lamports(10_000.0));
         let fee_rate_governor = FeeRateGovernor::new(11, 0);
         genesis_config.fee_rate_governor = fee_rate_governor;
         let bank = bank_with_all_features(&genesis_config);
@@ -1258,7 +1258,7 @@ mod tests {
 
     #[test]
     fn test_bench_tps_create_durable_nonce() {
-        let (genesis_config, id) = create_genesis_config(sol_to_lamports(10_000.0));
+        let (genesis_config, id) = create_genesis_config(rox_to_lamports(10_000.0));
         let bank = bank_with_all_features(&genesis_config);
         let client = Arc::new(BankClient::new_shared(bank));
         let keypair_count = 10;

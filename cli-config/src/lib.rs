@@ -1,8 +1,8 @@
-//! Loading and saving the Solana CLI configuration file.
+//! Loading and saving the Rox CLI configuration file.
 //!
-//! The configuration file used by the Solana CLI includes information about the
+//! The configuration file used by the Rox CLI includes information about the
 //! RPC node to connect to, the path to the user's signing source, and more.
-//! Other software than the Solana CLI may wish to access the same configuration
+//! Other software than the Rox CLI may wish to access the same configuration
 //! and signer.
 //!
 //! The default path to the configuration file can be retrieved from

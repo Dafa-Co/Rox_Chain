@@ -275,7 +275,7 @@ pub struct RemoteWalletInfo {
     pub serial: String,
     /// RemoteWallet host device path
     pub host_device_path: String,
-    /// Base pubkey of device at Solana derivation path
+    /// Base pubkey of device at Rox derivation path
     pub pubkey: Pubkey,
     /// Initial read error
     pub error: Option<RemoteWalletError>,

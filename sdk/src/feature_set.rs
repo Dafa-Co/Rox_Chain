@@ -1,7 +1,7 @@
 //! Collection of all runtime features.
 //!
 //! Steps to add a new feature are outlined below. Note that these steps only cover
-//! the process of getting a feature into the core Solana code.
+//! the process of getting a feature into the core Rox code.
 //! - For features that are unambiguously good (ie bug fixes), these steps are sufficient.
 //! - For features that should go up for community vote (ie fee structure changes), more
 //!   information on the additional steps to follow can be found at:
@@ -871,7 +871,7 @@ lazy_static! {
         (default_units_per_instruction::id(), "Default max tx-wide compute units calculated per instruction"),
         (stake_allow_zero_undelegated_amount::id(), "Allow zero-lamport undelegated amount for initialized stakes #24670"),
         (require_static_program_ids_in_transaction::id(), "require static program ids in versioned transactions"),
-        (stake_raise_minimum_delegation_to_1_sol::id(), "Raise minimum stake delegation to 1.0 SOL #24357"),
+        (stake_raise_minimum_delegation_to_1_sol::id(), "Raise minimum stake delegation to 1.0 ROX #24357"),
         (stake_minimum_delegation_for_rewards::id(), "stakes must be at least the minimum delegation to earn rewards"),
         (add_set_compute_unit_price_ix::id(), "add compute budget ix for setting a compute unit price"),
         (disable_deploy_of_alloc_free_syscall::id(), "disable new deployments of deprecated sol_alloc_free_ syscall"),

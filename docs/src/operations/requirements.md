@@ -5,14 +5,14 @@ sidebar_label: Requirements
 pagination_label: Requirements to Operate a Validator
 ---
 
-## Minimum SOL requirements
+## Minimum ROX requirements
 
-There is no strict minimum amount of SOL required to run a validator on Solana.
+There is no strict minimum amount of ROX required to run a validator on Solana.
 
 However in order to participate in consensus, a vote account is required which
-has a rent-exempt reserve of 0.02685864 SOL. Voting also requires sending a vote
+has a rent-exempt reserve of 0.02685864 ROX. Voting also requires sending a vote
 transaction for each block the validator agrees with, which can cost up to
-1.1 SOL per day.
+1.1 ROX per day.
 
 ## Hardware Recommendations
 

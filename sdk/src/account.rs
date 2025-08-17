@@ -1,4 +1,4 @@
-//! The Solana [`Account`] type.
+//! The Rox [`Account`] type.
 
 #[cfg(feature = "dev-context-only-utils")]
 use qualifier_attr::qualifiers;

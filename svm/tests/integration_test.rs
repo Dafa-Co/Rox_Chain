@@ -268,5 +268,5 @@ fn svm_integration() {
         .log_messages
         .as_ref()
         .unwrap();
-    assert!(logs.contains(&"Program log: Hello, Solana!".to_string()));
+    assert!(logs.contains(&"Program log: Hello, Rox!".to_string()));
 }

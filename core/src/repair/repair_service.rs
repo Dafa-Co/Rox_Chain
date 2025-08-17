@@ -774,7 +774,7 @@ impl RepairService {
                     Some((
                         *pubkey,
                         peer_repair_addr,
-                        (*stake / solana_sdk::native_token::LAMPORTS_PER_SOL) as u32,
+                        (*stake / solana_sdk::native_token::LAMPORTS_PER_ROX) as u32,
                     ))
                 } else {
                     None

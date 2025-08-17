@@ -20,7 +20,7 @@ use {
         clock::Slot,
         epoch_schedule::EpochSchedule,
         feature_set,
-        native_token::sol_to_lamports,
+        native_token::rox_to_lamports,
         pubkey::Pubkey,
         rent::Rent,
         signature::{read_keypair_file, write_keypair_file, Keypair, Signer},
@@ -304,7 +304,7 @@ fn main() {
         None
     };
 
-    let faucet_lamports = sol_to_lamports(value_of(&matches, "faucet_sol").unwrap());
+    let faucet_lamports = rox_to_lamports(value_of(&matches, "faucet_sol").unwrap());
     let faucet_keypair_file = ledger_path.join("faucet-keypair.json");
     if !faucet_keypair_file.exists() {
         write_keypair_file(&Keypair::new(), faucet_keypair_file.to_str().unwrap()).unwrap_or_else(
@@ -333,10 +333,10 @@ fn main() {
     let faucet_time_slice_secs = value_t_or_exit!(matches, "faucet_time_slice_secs", u64);
     let faucet_per_time_cap = value_t!(matches, "faucet_per_time_sol_cap", f64)
         .ok()
-        .map(sol_to_lamports);
+        .map(rox_to_lamports);
     let faucet_per_request_cap = value_t!(matches, "faucet_per_request_sol_cap", f64)
         .ok()
-        .map(sol_to_lamports);
+        .map(rox_to_lamports);
 
     let (sender, receiver) = unbounded();
     run_local_faucet_with_port(
@@ -364,7 +364,7 @@ fn main() {
             ("mint_address", "--mint"),
             ("ticks_per_slot", "--ticks-per-slot"),
             ("slots_per_epoch", "--slots-per-epoch"),
-            ("faucet_sol", "--faucet-sol"),
+            ("faucet_sol", "--faucet-rox"),
             ("deactivate_feature", "--deactivate-feature"),
         ] {
             if matches.is_present(name) {
@@ -374,7 +374,7 @@ fn main() {
     } else if random_mint {
         println_name_value(
             "\nNotice!",
-            "No wallet available. `solana airdrop` localnet SOL after creating one\n",
+            "No wallet available. `solana airdrop` localnet ROX after creating one\n",
         );
     }
 

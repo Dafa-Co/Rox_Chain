@@ -1,6 +1,6 @@
 //! A client for subscribing to messages from the RPC server.
 //!
-//! The [`PubsubClient`] implements [Solana WebSocket event
+//! The [`PubsubClient`] implements [Rox WebSocket event
 //! subscriptions][spec].
 //!
 //! [spec]: https://solana.com/docs/rpc/websocket

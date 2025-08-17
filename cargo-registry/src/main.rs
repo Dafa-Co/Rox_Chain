@@ -1,4 +1,4 @@
-//! The `registry_service` module implements the Solana cargo registry service.
+//! The `registry_service` module implements the Rox cargo registry service.
 use {
     crate::{
         client::Client,

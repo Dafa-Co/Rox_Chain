@@ -29,10 +29,10 @@ pub mod nonce_utils {
 pub mod pubsub_client {
     pub use solana_pubsub_client::pubsub_client::*;
 }
-/// Communication with a Solana node over RPC.
+/// Communication with a Rox node over RPC.
 ///
-/// Software that interacts with the Solana blockchain, whether querying its
-/// state or submitting transactions, communicates with a Solana node over
+/// Software that interacts with the Rox blockchain, whether querying its
+/// state or submitting transactions, communicates with a Rox node over
 /// [JSON-RPC], using the [`RpcClient`] type.
 ///
 /// [JSON-RPC]: https://www.jsonrpc.org/specification

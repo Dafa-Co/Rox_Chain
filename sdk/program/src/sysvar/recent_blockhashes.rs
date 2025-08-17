@@ -12,7 +12,7 @@
 //! [`getFeeForMessage`]: https://solana.com/docs/rpc/http/getfeeformessage
 //! [ccf]: https://docs.solanalabs.com/proposals/comprehensive-compute-fees
 //!
-//! See also the Solana [documentation on the recent blockhashes sysvar][sdoc].
+//! See also the Rox [documentation on the recent blockhashes sysvar][sdoc].
 //!
 //! [sdoc]: https://docs.solanalabs.com/runtime/sysvars#recentblockhashes
 

@@ -1,4 +1,4 @@
-//! Solana account addresses.
+//! Rox account addresses.
 
 pub use solana_program::pubkey::*;
 
