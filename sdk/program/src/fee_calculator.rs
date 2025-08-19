@@ -2,7 +2,7 @@
 
 #![allow(clippy::arithmetic_side_effects)]
 use {
-    crate::{clock::DEFAULT_MS_PER_SLOT, ed25519_program, message::Message, secp256k1_program},
+    crate::{ed25519_program, message::Message, secp256k1_program},
     log::*,
 };
 
@@ -72,11 +72,11 @@ pub struct FeeRateGovernor {
     pub burn_percent: u8,
 }
 
-pub const DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE: u64 = 10_000;
-pub const DEFAULT_TARGET_SIGNATURES_PER_SLOT: u64 = 50 * DEFAULT_MS_PER_SLOT;
+pub const DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE: u64 = 10_0000;
+pub const DEFAULT_TARGET_SIGNATURES_PER_SLOT: u64 = 0;
 
 // Percentage of tx fees to burn
-pub const DEFAULT_BURN_PERCENT: u8 = 50;
+pub const DEFAULT_BURN_PERCENT: u8 = 0;
 
 impl Default for FeeRateGovernor {
     fn default() -> Self {

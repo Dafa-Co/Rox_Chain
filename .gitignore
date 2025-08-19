@@ -5,6 +5,8 @@ target/
 /solana-metrics/
 /solana-metrics.tar.bz2
 /test-ledger/
+/rox-ledger
+/bin
 
 **/*.rs.bk
 .cargo
