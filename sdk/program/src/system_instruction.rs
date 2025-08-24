@@ -57,7 +57,7 @@ use {
 pub enum SystemError {
     #[error("an account with the same address already exists")]
     AccountAlreadyInUse,
-    #[error("account does not have enough SOL to perform the operation")]
+    #[error("account does not have enough ROX to perform the operation")]
     ResultWithNegativeLamports,
     #[error("cannot assign account to this program id")]
     InvalidProgramId,
@@ -353,7 +353,7 @@ pub enum SystemInstruction {
 ///
 /// ## Example: on-chain program
 ///
-/// This example submits the instruction from an on-chain Solana program. The
+/// This example submits the instruction from an on-chain Rox program. The
 /// created account is a [program derived address][pda]. The `payer` and
 /// `new_account_pda` are signers, with `new_account_pda` being signed for
 /// virtually by the program itself via [`invoke_signed`], `payer` being signed
@@ -569,7 +569,7 @@ pub fn create_account_with_seed(
 ///
 /// ## Example: on-chain program
 ///
-/// This example submits the instructions from an on-chain Solana program. The
+/// This example submits the instructions from an on-chain Rox program. The
 /// created account is a [program derived address][pda], funded by `payer`, and
 /// assigned to the running program. The `payer` and `new_account_pda` are
 /// signers, with `new_account_pda` being signed for virtually by the program
@@ -780,7 +780,7 @@ pub fn assign_with_seed(
 ///
 /// ## Example: on-chain program
 ///
-/// This example submits the instructions from an on-chain Solana program. The
+/// This example submits the instructions from an on-chain Rox program. The
 /// created account is a [program derived address][pda], funded by `payer`, and
 /// assigned to the running program. The `payer` and `new_account_pda` are
 /// signers, with `new_account_pda` being signed for virtually by the program
@@ -1000,7 +1000,7 @@ pub fn transfer_with_seed(
 ///
 /// ## Example: on-chain program
 ///
-/// This example submits the instructions from an on-chain Solana program. The
+/// This example submits the instructions from an on-chain Rox program. The
 /// created account is a [program derived address][pda], funded by `payer`, and
 /// assigned to the running program. The `payer` and `new_account_pda` are
 /// signers, with `new_account_pda` being signed for virtually by the program
@@ -1195,7 +1195,7 @@ pub fn allocate_with_seed(
 ///
 /// This example makes multiple transfers out of a "bank" account,
 /// a [program derived address][pda] owned by the calling program.
-/// This example submits the instructions from an on-chain Solana program. The
+/// This example submits the instructions from an on-chain Rox program. The
 /// created account is a [program derived address][pda], and it is assigned to
 /// the running program. The `payer` and `new_account_pda` are signers, with
 /// `new_account_pda` being signed for virtually by the program itself via
@@ -1322,8 +1322,8 @@ pub fn create_nonce_account_with_seed(
 /// A [durable transaction nonce][dtn] is a special account that enables
 /// execution of transactions that have been signed in the past.
 ///
-/// Standard Solana transactions include a [recent blockhash][rbh] (sometimes
-/// referred to as a _[nonce]_). During execution the Solana runtime verifies
+/// Standard Rox transactions include a [recent blockhash][rbh] (sometimes
+/// referred to as a _[nonce]_). During execution the Rox runtime verifies
 /// the recent blockhash is approximately less than two minutes old, and that in
 /// those two minutes no other identical transaction with the same blockhash has
 /// been executed. These checks prevent accidental replay of transactions.
@@ -1459,7 +1459,7 @@ pub fn create_nonce_account(
 /// Every transaction that relies on a durable transaction nonce must contain a
 /// [`SystemInstruction::AdvanceNonceAccount`] instruction as the first
 /// instruction in the [`Message`], as created by this function. When included
-/// in the first position, the Solana runtime recognizes the transaction as one
+/// in the first position, the Rox runtime recognizes the transaction as one
 /// that relies on a durable transaction nonce and processes it accordingly. The
 /// [`Message::new_with_nonce`] function can be used to construct a `Message` in
 /// the correct format without calling `advance_nonce_account` directly.

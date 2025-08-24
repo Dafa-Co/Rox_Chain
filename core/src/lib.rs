@@ -1,7 +1,7 @@
 #![cfg_attr(RUSTC_WITH_SPECIALIZATION, feature(min_specialization))]
 #![allow(clippy::arithmetic_side_effects)]
 #![recursion_limit = "2048"]
-//! The `solana` library implements the Solana high-performance blockchain architecture.
+//! The `solana` library implements the Rox high-performance blockchain architecture.
 //! It includes a full Rust implementation of the architecture (see
 //! [Validator](validator/struct.Validator.html)) as well as hooks to GPU implementations of its most
 //! paralellizable components (i.e. [SigVerify](sigverify/index.html)).  It also includes

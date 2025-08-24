@@ -8,7 +8,7 @@
 //! [`Rent`] implements [`Sysvar::get`] and can be loaded efficiently without
 //! passing the sysvar account ID to the program.
 //!
-//! See also the Solana [documentation on the rent sysvar][sdoc].
+//! See also the Rox [documentation on the rent sysvar][sdoc].
 //!
 //! [sdoc]: https://docs.solanalabs.com/runtime/sysvars#rent
 //!

@@ -1,4 +1,4 @@
-//! Solana precompiled programs.
+//! Rox precompiled programs.
 
 #![cfg(feature = "full")]
 

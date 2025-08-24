@@ -196,15 +196,15 @@ impl ElGamalKeypair {
         Self { public, secret }
     }
 
-    /// Deterministically derives an ElGamal keypair from a Solana signer and a public seed.
+    /// Deterministically derives an ElGamal keypair from a Rox signer and a public seed.
     ///
-    /// This function exists for applications where a user may not wish to maintain a Solana signer
+    /// This function exists for applications where a user may not wish to maintain a Rox signer
     /// and an ElGamal keypair separately. Instead, a user can derive the ElGamal keypair
     /// on-the-fly whenever encryption/decryption is needed.
     ///
     /// For the spl-token-2022 confidential extension, the ElGamal public key is specified in a
     /// token account. A natural way to derive an ElGamal keypair is to define it from the hash of
-    /// a Solana keypair and a Solana address as the public seed. However, for general hardware
+    /// a Rox keypair and a Rox address as the public seed. However, for general hardware
     /// wallets, the signing key is not exposed in the API. Therefore, this function uses a signer
     /// to sign a public seed and the resulting signature is then hashed to derive an ElGamal
     /// keypair.
@@ -410,7 +410,7 @@ impl fmt::Display for ElGamalPubkey {
 #[zeroize(drop)]
 pub struct ElGamalSecretKey(Scalar);
 impl ElGamalSecretKey {
-    /// Deterministically derives an ElGamal secret key from a Solana signer and a public seed.
+    /// Deterministically derives an ElGamal secret key from a Rox signer and a public seed.
     ///
     /// See `ElGamalKeypair::new_from_signer` for more context on the key derivation.
     pub fn new_from_signer(
@@ -422,7 +422,7 @@ impl ElGamalSecretKey {
         Ok(key)
     }
 
-    /// Derive a seed from a Solana signer used to generate an ElGamal secret key.
+    /// Derive a seed from a Rox signer used to generate an ElGamal secret key.
     ///
     /// The seed is derived as the hash of the signature of a public seed.
     pub fn seed_from_signer(

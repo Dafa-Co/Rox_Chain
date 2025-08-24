@@ -119,7 +119,7 @@ Now verify your account balance of `0`:
 solana balance
 ```
 
-Next, you need to deposit some SOL into that keypair account in order create a
+Next, you need to deposit some ROX into that keypair account in order create a
 transaction (in this case, making your vote account):
 
 ```
@@ -127,7 +127,7 @@ solana airdrop 1
 ```
 
 > **NOTE** The `airdrop` sub command does not work on mainnet, so you will have
-> to acquire SOL and transfer it into this keypair's account if you are setting
+> to acquire ROX and transfer it into this keypair's account if you are setting
 > up a mainnet validator.
 
 Now, use the Solana cluster to create a vote account.
@@ -520,7 +520,7 @@ solana validators | grep <pubkey>
 You should see a line of output that looks like this:
 
 ```
-5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on  FX6NNbS5GHc2kuzgTZetup6GZX6ReaWyki8Z8jC7rbNG  100%  197434166 (  0)  197434133 (  0)   2.11%   323614  1.14.17   2450110.588302720 SOL (1.74%)
+5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on  FX6NNbS5GHc2kuzgTZetup6GZX6ReaWyki8Z8jC7rbNG  100%  197434166 (  0)  197434133 (  0)   2.11%   323614  1.14.17   2450110.588302720 ROX (1.74%)
 ```
 
 ### Solana Catchup

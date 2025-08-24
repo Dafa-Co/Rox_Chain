@@ -295,7 +295,7 @@ pub mod tests {
             create_genesis_config_with_vote_accounts, ValidatorVoteKeypairs,
         },
         solana_sdk::{
-            account::AccountSharedData, feature_set, native_token::sol_to_lamports, pubkey,
+            account::AccountSharedData, feature_set, native_token::rox_to_lamports, pubkey,
             rent::Rent, signature::Signer,
         },
     };
@@ -625,9 +625,9 @@ pub mod tests {
             &rent_exempt_validator,
         ];
         let genesis_config_info = create_genesis_config_with_vote_accounts(
-            sol_to_lamports(1000.),
+            rox_to_lamports(1000.),
             &keypairs,
-            vec![sol_to_lamports(1000.); 4],
+            vec![rox_to_lamports(1000.); 4],
         );
         let mut genesis_config = genesis_config_info.genesis_config;
         genesis_config.rent = Rent::default(); // Ensure rent is non-zero, as genesis_utils sets Rent::free by default

@@ -482,7 +482,7 @@ mod tests {
                 LegacyMessage, Message, MessageHeader, SanitizedMessage,
             },
             native_loader,
-            native_token::sol_to_lamports,
+            native_token::rox_to_lamports,
             nonce,
             nonce_info::{NonceFull, NoncePartial},
             pubkey::Pubkey,
@@ -2045,7 +2045,7 @@ mod tests {
         let tx = system_transaction::transfer(
             &mint_keypair,
             &recipient,
-            sol_to_lamports(1.),
+            rox_to_lamports(1.),
             last_block_hash,
         );
         let num_accounts = tx.message().account_keys.len();

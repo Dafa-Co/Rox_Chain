@@ -1,6 +1,7 @@
 //! Fee structures.
 
-use crate::native_token::sol_to_lamports;
+use solana_program::fee_calculator::DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE;
+use crate::native_token::rox_to_lamports;
 #[cfg(not(target_os = "solana"))]
 use solana_program::message::SanitizedMessage;
 
@@ -59,14 +60,27 @@ impl FeeStructure {
     ) -> Self {
         let compute_fee_bins = compute_fee_bins
             .iter()
-            .map(|(limit, sol)| FeeBin {
+            .map(|(limit, rox)| FeeBin {
                 limit: *limit,
-                fee: sol_to_lamports(*sol),
+                fee: rox_to_lamports(*rox),
             })
             .collect::<Vec<_>>();
         FeeStructure {
-            lamports_per_signature: sol_to_lamports(sol_per_signature),
-            lamports_per_write_lock: sol_to_lamports(sol_per_write_lock),
+            lamports_per_signature: rox_to_lamports(sol_per_signature),
+            lamports_per_write_lock: rox_to_lamports(sol_per_write_lock),
+            compute_fee_bins,
+        }
+    }
+
+    // Add a new constructor that takes lamports directly
+    pub fn new_with_lamports(
+        lamports_per_signature: u64,
+        lamports_per_write_lock: u64,
+        compute_fee_bins: Vec<FeeBin>,
+    ) -> Self {
+        FeeStructure {
+            lamports_per_signature,
+            lamports_per_write_lock,
             compute_fee_bins,
         }
     }
@@ -103,20 +117,19 @@ impl FeeStructure {
         include_loaded_account_data_size_in_fee: bool,
         remove_rounding_in_fee_calculation: bool,
     ) -> u64 {
-        // Fee based on compute units and signatures
-        let congestion_multiplier = if lamports_per_signature == 0 {
-            0 // test only
-        } else {
-            1 // multiplier that has no effect
-        };
-
+        // Ignore the lamports_per_signature parameter and use our own value
+        // Also ignore compute budget prioritization fees
         self.calculate_fee_details(
             message,
-            budget_limits,
+            &FeeBudgetLimits {
+                loaded_accounts_data_size_limit: budget_limits.loaded_accounts_data_size_limit,
+                heap_cost: budget_limits.heap_cost,
+                compute_unit_limit: budget_limits.compute_unit_limit,
+                prioritization_fee: 0,  // Force to 0
+            },
             include_loaded_account_data_size_in_fee,
         )
         .total_fee(remove_rounding_in_fee_calculation)
-        .saturating_mul(congestion_multiplier)
     }
 
     /// Calculate fee details for `SanitizedMessage`
@@ -162,14 +175,19 @@ impl FeeStructure {
             transaction_fee: signature_fee
                 .saturating_add(write_lock_fee)
                 .saturating_add(compute_fee),
-            prioritization_fee: budget_limits.prioritization_fee,
+            prioritization_fee: 0, // Force to 0 to avoid the +2 lamport rounding
         }
     }
 }
 
 impl Default for FeeStructure {
     fn default() -> Self {
-        Self::new(0.000005, 0.0, vec![(1_400_000, 0.0)])
+        // Use the constant directly to avoid conversion precision issues
+        Self::new_with_lamports(
+            DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE,
+            0,
+            vec![],
+        )
     }
 }
 

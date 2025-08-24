@@ -1,4 +1,4 @@
-//! The definition of a Solana network packet.
+//! The definition of a Rox network packet.
 
 use {
     bincode::{Options, Result},

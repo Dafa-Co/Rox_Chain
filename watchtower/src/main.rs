@@ -16,7 +16,7 @@ use {
     solana_rpc_client_api::{client_error, response::RpcVoteAccountStatus},
     solana_sdk::{
         hash::Hash,
-        native_token::{sol_to_lamports, Sol},
+        native_token::{rox_to_lamports, Rox},
         pubkey::Pubkey,
     },
     std::{
@@ -124,11 +124,11 @@ fn get_config() -> Config {
         .arg(
             Arg::with_name("minimum_validator_identity_balance")
                 .long("minimum-validator-identity-balance")
-                .value_name("SOL")
+                .value_name("ROX")
                 .takes_value(true)
                 .default_value("10")
                 .validator(is_parsable::<f64>)
-                .help("Alert when the validator identity balance is less than this amount of SOL")
+                .help("Alert when the validator identity balance is less than this amount of ROX")
         )
         .arg(
             // Deprecated parameter, now always enabled
@@ -178,7 +178,7 @@ fn get_config() -> Config {
 
     let interval = Duration::from_secs(value_t_or_exit!(matches, "interval", u64));
     let unhealthy_threshold = value_t_or_exit!(matches, "unhealthy_threshold", usize);
-    let minimum_validator_identity_balance = sol_to_lamports(value_t_or_exit!(
+    let minimum_validator_identity_balance = rox_to_lamports(value_t_or_exit!(
         matches,
         "minimum_validator_identity_balance",
         f64
@@ -289,9 +289,9 @@ fn main() -> Result<(), Box<dyn error::Error>> {
                 info!(
                     "Current stake: {:.2}% | Total stake: {}, current stake: {}, delinquent: {}",
                     current_stake_percent,
-                    Sol(total_stake),
-                    Sol(total_current_stake),
-                    Sol(total_delinquent_stake)
+                    Rox(total_stake),
+                    Rox(total_current_stake),
+                    Rox(total_delinquent_stake)
                 );
 
                 if transaction_count > last_transaction_count {
@@ -347,7 +347,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
                         if *balance < config.minimum_validator_identity_balance {
                             failures.push((
                                 "balance",
-                                format!("{} has {}", formatted_validator_identity, Sol(*balance)),
+                                format!("{} has {}", formatted_validator_identity, Rox(*balance)),
                             ));
                         }
                     }

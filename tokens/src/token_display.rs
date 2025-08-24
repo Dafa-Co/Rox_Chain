@@ -1,17 +1,17 @@
 use {
     solana_account_decoder::parse_token::real_number_string_trimmed,
-    solana_sdk::native_token::lamports_to_sol,
+    solana_sdk::native_token::lamports_to_rox,
     std::{
         fmt::{Debug, Display, Formatter, Result},
         ops::Add,
     },
 };
 
-const SOL_SYMBOL: &str = "◎";
+const ROX_SYMBOL: &str = "ROX";
 
 #[derive(PartialEq, Eq)]
 pub enum TokenType {
-    Sol,
+    Rox,
     SplToken,
 }
 
@@ -24,9 +24,9 @@ pub struct Token {
 impl Token {
     fn write_with_symbol(&self, f: &mut Formatter) -> Result {
         match &self.token_type {
-            TokenType::Sol => {
-                let amount = lamports_to_sol(self.amount);
-                write!(f, "{SOL_SYMBOL}{amount}")
+            TokenType::Rox => {
+                let amount = lamports_to_rox(self.amount);
+                write!(f, "{ROX_SYMBOL}{amount}")
             }
             TokenType::SplToken => {
                 let amount = real_number_string_trimmed(self.amount, self.decimals);
@@ -35,11 +35,11 @@ impl Token {
         }
     }
 
-    pub fn sol(amount: u64) -> Self {
+    pub fn rox(amount: u64) -> Self {
         Self {
             amount,
             decimals: 9,
-            token_type: TokenType::Sol,
+            token_type: TokenType::Rox,
         }
     }
 

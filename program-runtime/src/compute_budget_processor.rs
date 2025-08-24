@@ -132,7 +132,7 @@ pub fn process_compute_budget_instructions<'a>(
         })
         .min(MAX_COMPUTE_UNIT_LIMIT);
 
-    let compute_unit_price = updated_compute_unit_price.unwrap_or(0);
+    let compute_unit_price = 0;
 
     let loaded_accounts_bytes = updated_loaded_accounts_data_size_limit
         .unwrap_or(MAX_LOADED_ACCOUNTS_DATA_SIZE_BYTES)

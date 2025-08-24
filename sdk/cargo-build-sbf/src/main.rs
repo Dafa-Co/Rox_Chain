@@ -591,7 +591,7 @@ fn build_solana_package(
         exit(1);
     });
 
-    info!("Solana SDK: {}", config.sbf_sdk.display());
+    info!("Rox SDK: {}", config.sbf_sdk.display());
     if config.no_default_features {
         info!("No default features");
     }
@@ -654,7 +654,7 @@ fn build_solana_package(
 
     // RUSTC variable overrides cargo +<toolchain> mechanism of
     // selecting the rust compiler and makes cargo run a rust compiler
-    // other than the one linked in Solana toolchain. We have to prevent
+    // other than the one linked in Rox toolchain. We have to prevent
     // this by removing RUSTC from the child process environment.
     if env::var("RUSTC").is_ok() {
         warn!(
@@ -939,7 +939,7 @@ fn main() {
                 .value_name("PATH")
                 .takes_value(true)
                 .default_value(&default_sbf_sdk)
-                .help("Path to the Solana SBF SDK"),
+                .help("Path to the Rox SBF SDK"),
         )
         .arg(
             Arg::new("cargo_args")
@@ -1028,7 +1028,7 @@ fn main() {
                 .long("workspace")
                 .takes_value(false)
                 .alias("all")
-                .help("Build all Solana packages in the workspace"),
+                .help("Build all Rox packages in the workspace"),
         )
         .arg(
             Arg::new("jobs")
@@ -1091,7 +1091,7 @@ fn main() {
         target_directory,
         sbf_sdk: fs::canonicalize(&sbf_sdk).unwrap_or_else(|err| {
             error!(
-                "Solana SDK path does not exist: {}: {}",
+                "Rox SDK path does not exist: {}: {}",
                 sbf_sdk.display(),
                 err
             );
