@@ -272,6 +272,7 @@ pub struct BankRc {
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
 use solana_frozen_abi::abi_example::AbiExample;
+use solana_sdk::fee_calculator::DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE;
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
 impl AbiExample for BankRc {
@@ -3812,7 +3813,7 @@ impl Bank {
         // updating sysvars (the fees sysvar in this case) now depends on feature activations in
         // genesis_config.accounts above
         self.update_fees();
-
+        self.fee_structure.lamports_per_signature = DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE;
         for (pubkey, account) in genesis_config.rewards_pools.iter() {
             assert!(
                 self.get_account(pubkey).is_none(),
@@ -3834,7 +3835,7 @@ impl Bank {
 
         self.blockhash_queue.write().unwrap().genesis_hash(
             &genesis_config.hash(),
-            self.fee_rate_governor.lamports_per_signature,
+            DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE,
         );
 
         self.hashes_per_tick = genesis_config.hashes_per_tick();
@@ -3992,7 +3993,7 @@ impl Bank {
     }
 
     pub fn get_lamports_per_signature(&self) -> u64 {
-        self.fee_rate_governor.lamports_per_signature
+        DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE
     }
 
     pub fn get_lamports_per_signature_for_blockhash(&self, hash: &Hash) -> Option<u64> {
@@ -4055,9 +4056,12 @@ impl Bank {
         message: &SanitizedMessage,
         lamports_per_signature: u64,
     ) -> u64 {
+        // Override the lamports_per_signature to use our fee structure value
+        let correct_lamports_per_signature = self.fee_structure.lamports_per_signature;
+        
         self.fee_structure.calculate_fee(
             message,
-            lamports_per_signature,
+            correct_lamports_per_signature,  // Use fee structure value, not parameter
             &process_compute_budget_instructions(message.program_instructions_iter())
                 .unwrap_or_default()
                 .into(),
@@ -4153,7 +4157,7 @@ impl Bank {
         // readers can starve this write lock acquisition and ticks would be slowed down too
         // much if the write lock is acquired for each tick.
         let mut w_blockhash_queue = self.blockhash_queue.write().unwrap();
-        w_blockhash_queue.register_hash(blockhash, self.fee_rate_governor.lamports_per_signature);
+        w_blockhash_queue.register_hash(blockhash, DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE);
         self.update_recent_blockhashes_locked(&w_blockhash_queue);
     }
 

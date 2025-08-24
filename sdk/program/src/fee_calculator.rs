@@ -29,22 +29,7 @@ impl FeeCalculator {
         note = "Please do not use, will no longer be available in the future"
     )]
     pub fn calculate_fee(&self, message: &Message) -> u64 {
-        let mut num_signatures: u64 = 0;
-        for instruction in &message.instructions {
-            let program_index = instruction.program_id_index as usize;
-            // Message may not be sanitized here
-            if program_index < message.account_keys.len() {
-                let id = message.account_keys[program_index];
-                if (secp256k1_program::check_id(&id) || ed25519_program::check_id(&id))
-                    && !instruction.data.is_empty()
-                {
-                    num_signatures += instruction.data[0] as u64;
-                }
-            }
-        }
-
-        self.lamports_per_signature
-            * (u64::from(message.header.num_required_signatures) + num_signatures)
+        DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE
     }
 }
 
@@ -72,7 +57,7 @@ pub struct FeeRateGovernor {
     pub burn_percent: u8,
 }
 
-pub const DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE: u64 = 10_0000;
+pub const DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE: u64 = 100_000;
 pub const DEFAULT_TARGET_SIGNATURES_PER_SLOT: u64 = 0;
 
 // Percentage of tx fees to burn
