@@ -57,7 +57,7 @@ pub struct FeeRateGovernor {
     pub burn_percent: u8,
 }
 
-pub const DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE: u64 = 100_000;
+pub const DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE: u64 = 50_000;
 pub const DEFAULT_TARGET_SIGNATURES_PER_SLOT: u64 = 0;
 
 // Percentage of tx fees to burn
