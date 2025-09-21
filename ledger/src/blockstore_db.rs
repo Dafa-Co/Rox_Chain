@@ -2163,8 +2163,9 @@ fn get_db_options(access_type: &AccessType) -> Options {
     env.set_high_priority_background_threads(4);
     options.set_env(&env);
 
-    // Set max total wal size to 4G.
-    options.set_max_total_wal_size(4 * 1024 * 1024 * 1024);
+    // OLD => Set max total wal size to 4G.
+    // NEW => Set max total wal size to 1G.
+    options.set_max_total_wal_size(1024 * 1024 * 1024);
 
     if should_disable_auto_compactions(access_type) {
         options.set_disable_auto_compactions(true);

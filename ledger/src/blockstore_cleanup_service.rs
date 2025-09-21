@@ -26,14 +26,31 @@ use {
 //   Seeing about 1600b/shred, using 2000b/shred for margin, so 200m shreds can be stored in 400gb.
 //   at 5k shreds/slot at 50k tps, this is 40k slots (~4.4 hours).
 //   At idle, 60 shreds/slot this is about 3.33m slots (~15 days)
+
+// ROX-CHANGES:
+// - To try and keep the RocksDB size under 1GB (for fast testing):
+//   Seeing about 1600b/shred, using 2000b/shred for margin, so 500k shreds can be stored in 1gb.
+//   at 5k shreds/slot at 50k tps, this is 100 slots (~6.7 seconds).
+//   At idle, 60 shreds/slot this is about 8.3k slots (~1.9 minutes)
+
+
 // This is chosen to allow enough time for
 // - A validator to download a snapshot from a peer and boot from it
 // - To make sure that if a validator needs to reboot from its own snapshot, it has enough slots locally
 //   to catch back up to where it was when it stopped
-pub const DEFAULT_MAX_LEDGER_SHREDS: u64 = 200_000_000;
+// pub const DEFAULT_MAX_LEDGER_SHREDS: u64 = 200_000_000;
 
-// Allow down to 50m, or 3.5 days at idle, 1hr at 50k load, around ~100GB
-pub const DEFAULT_MIN_MAX_LEDGER_SHREDS: u64 = 50_000_000;
+// ROX-CHANGES:
+// pub const DEFAULT_MAX_LEDGER_SHREDS: u64 = 500_000; // It's around 1GB
+pub const DEFAULT_MAX_LEDGER_SHREDS: u64 = 100_000; // It's around 25GB
+
+// // Allow down to 50m, or 3.5 days at idle, 1hr at 50k load, around ~100GB
+// pub const DEFAULT_MIN_MAX_LEDGER_SHREDS: u64 = 50_000_000;
+
+// ROX-CHANGES:
+// Allow down to 50k, or 14 seconds at idle, 10 seconds at 50k load, around ~100MB
+// pub const DEFAULT_MIN_MAX_LEDGER_SHREDS: u64 = 50_000; // It's around 100MB
+pub const DEFAULT_MIN_MAX_LEDGER_SHREDS: u64 = 20_000; // It's around 10MB
 
 // Perform blockstore cleanup at this interval to limit the overhead of cleanup
 // Cleanup will be considered after the latest root has advanced by this value
