@@ -3799,7 +3799,9 @@ impl Bank {
         #[cfg(feature = "dev-context-only-utils")] collector_id_for_tests: Option<Pubkey>,
     ) {
         // Bootstrap validator collects fees until `new_from_parent` is called.
-        self.fee_rate_governor = genesis_config.fee_rate_governor.clone();
+        // Override fee_rate_governor from genesis to always use constant fee
+        // This ensures constant fees regardless of what's in the genesis block
+        self.fee_rate_governor = FeeRateGovernor::default();
 
         for (pubkey, account) in genesis_config.accounts.iter() {
             assert!(
@@ -3996,9 +3998,10 @@ impl Bank {
         DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE
     }
 
-    pub fn get_lamports_per_signature_for_blockhash(&self, hash: &Hash) -> Option<u64> {
-        let blockhash_queue = self.blockhash_queue.read().unwrap();
-        blockhash_queue.get_lamports_per_signature(hash)
+    pub fn get_lamports_per_signature_for_blockhash(&self, _hash: &Hash) -> Option<u64> {
+        // Always return constant fee regardless of blockhash
+        // This ensures constant fees even if blockhash queue has different values
+        Some(DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE)
     }
 
     #[deprecated(since = "1.9.0", note = "Please use `get_fee_for_message` instead")]
