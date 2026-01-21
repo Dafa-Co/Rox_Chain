@@ -137,7 +137,7 @@ use {
         native_token::LAMPORTS_PER_ROX,
         nonce::{self, state::DurableNonce, NONCED_TX_MARKER_IX_INDEX},
         nonce_account,
-        nonce_info::{NonceInfo, NoncePartial},
+        nonce_info::NoncePartial,
         packet::PACKET_DATA_SIZE,
         precompiles::get_precompiles,
         pubkey::Pubkey,
@@ -4867,6 +4867,10 @@ impl Bank {
                     }
                     TransactionExecutionResult::NotExecuted(err) => Err(err.clone()),
                 }?;
+
+                // Check if this is a nonce transaction
+                // Nonce transactions already have fees deducted during loading
+                let is_nonce = durable_nonce_fee.is_some();
 
                 // Always use constant fee regardless of blockhash queue or nonce
                 // This ensures constant fees for all transactions
