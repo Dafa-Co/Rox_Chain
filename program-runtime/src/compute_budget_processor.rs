@@ -43,11 +43,10 @@ impl Default for ComputeBudgetLimits {
 
 impl From<ComputeBudgetLimits> for FeeBudgetLimits {
     fn from(val: ComputeBudgetLimits) -> Self {
-        let prioritization_fee_details = PrioritizationFeeDetails::new(
-            PrioritizationFeeType::ComputeUnitPrice(val.compute_unit_price),
-            u64::from(val.compute_unit_limit),
-        );
-        let prioritization_fee = prioritization_fee_details.get_fee();
+        // Force prioritization_fee to 0 to ensure constant transaction fees
+        // All transactions pay exactly CONSTANT_TRANSACTION_FEE_LAMPORTS (10,000 lamports)
+        // regardless of compute budget instructions
+        let prioritization_fee = 0;
 
         FeeBudgetLimits {
             // NOTE - usize::from(u32).unwrap() may fail if target is 16-bit and
