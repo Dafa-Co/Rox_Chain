@@ -4010,16 +4010,9 @@ impl Bank {
     }
 
     pub fn get_fee_for_message(&self, message: &SanitizedMessage) -> Option<u64> {
-        let lamports_per_signature = {
-            let blockhash_queue = self.blockhash_queue.read().unwrap();
-            blockhash_queue.get_lamports_per_signature(message.recent_blockhash())
-        }
-        .or_else(|| {
-            self.check_message_for_nonce(message)
-                .and_then(|(address, account)| {
-                    NoncePartial::new(address, account).lamports_per_signature()
-                })
-        })?;
+        // Always use constant fee regardless of blockhash queue or nonce
+        // This ensures constant fees for all transactions
+        let lamports_per_signature = DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE;
         Some(self.get_fee_for_message_with_lamports_per_signature(message, lamports_per_signature))
     }
 
@@ -4472,13 +4465,15 @@ impl Bank {
             (
                 Ok(()),
                 None,
-                hash_queue.get_lamports_per_signature(tx.message().recent_blockhash()),
+                // Always use constant fee regardless of blockhash queue
+                Some(DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE),
             )
         } else if let Some((address, account)) =
             self.check_transaction_for_nonce(tx, next_durable_nonce)
         {
             let nonce = NoncePartial::new(address, account);
-            let lamports_per_signature = nonce.lamports_per_signature();
+            // Always use constant fee even for nonce transactions
+            let lamports_per_signature = Some(DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE);
             (Ok(()), Some(nonce), lamports_per_signature)
         } else {
             error_counters.blockhash_not_found += 1;
@@ -4873,18 +4868,9 @@ impl Bank {
                     TransactionExecutionResult::NotExecuted(err) => Err(err.clone()),
                 }?;
 
-                let (lamports_per_signature, is_nonce) = durable_nonce_fee
-                    .map(|durable_nonce_fee| durable_nonce_fee.lamports_per_signature())
-                    .map(|maybe_lamports_per_signature| (maybe_lamports_per_signature, true))
-                    .unwrap_or_else(|| {
-                        (
-                            hash_queue.get_lamports_per_signature(tx.message().recent_blockhash()),
-                            false,
-                        )
-                    });
-
-                let lamports_per_signature =
-                    lamports_per_signature.ok_or(TransactionError::BlockhashNotFound)?;
+                // Always use constant fee regardless of blockhash queue or nonce
+                // This ensures constant fees for all transactions
+                let lamports_per_signature = DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE;
                 let fee = self.get_fee_for_message_with_lamports_per_signature(
                     tx.message(),
                     lamports_per_signature,
