@@ -1,6 +1,6 @@
 //! Fee structures.
 
-use solana_program::fee_calculator::DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE;
+use solana_program::fee_calculator::{DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE, CONSTANT_TRANSACTION_FEE_LAMPORTS};
 use crate::native_token::rox_to_lamports;
 #[cfg(not(target_os = "solana"))]
 use solana_program::message::SanitizedMessage;
@@ -86,15 +86,7 @@ impl FeeStructure {
     }
 
     pub fn get_max_fee(&self, num_signatures: u64, num_write_locks: u64) -> u64 {
-        num_signatures
-            .saturating_mul(self.lamports_per_signature)
-            .saturating_add(num_write_locks.saturating_mul(self.lamports_per_write_lock))
-            .saturating_add(
-                self.compute_fee_bins
-                    .last()
-                    .map(|bin| bin.fee)
-                    .unwrap_or_default(),
-            )
+        CONSTANT_TRANSACTION_FEE_LAMPORTS
     }
 
     pub fn calculate_memory_usage_cost(
@@ -140,41 +132,8 @@ impl FeeStructure {
         budget_limits: &FeeBudgetLimits,
         include_loaded_account_data_size_in_fee: bool,
     ) -> FeeDetails {
-        let signature_fee = message
-            .num_signatures()
-            .saturating_mul(self.lamports_per_signature);
-        let write_lock_fee = message
-            .num_write_locks()
-            .saturating_mul(self.lamports_per_write_lock);
-
-        // `compute_fee` covers costs for both requested_compute_units and
-        // requested_loaded_account_data_size
-        let loaded_accounts_data_size_cost = if include_loaded_account_data_size_in_fee {
-            FeeStructure::calculate_memory_usage_cost(
-                budget_limits.loaded_accounts_data_size_limit,
-                budget_limits.heap_cost,
-            )
-        } else {
-            0_u64
-        };
-        let total_compute_units =
-            loaded_accounts_data_size_cost.saturating_add(budget_limits.compute_unit_limit);
-        let compute_fee = self
-            .compute_fee_bins
-            .iter()
-            .find(|bin| total_compute_units <= bin.limit)
-            .map(|bin| bin.fee)
-            .unwrap_or_else(|| {
-                self.compute_fee_bins
-                    .last()
-                    .map(|bin| bin.fee)
-                    .unwrap_or_default()
-            });
-
         FeeDetails {
-            transaction_fee: signature_fee
-                .saturating_add(write_lock_fee)
-                .saturating_add(compute_fee),
+            transaction_fee: CONSTANT_TRANSACTION_FEE_LAMPORTS,
             prioritization_fee: 0, // Force to 0 to avoid the +2 lamport rounding
         }
     }
@@ -182,9 +141,10 @@ impl FeeStructure {
 
 impl Default for FeeStructure {
     fn default() -> Self {
-        // Use the constant directly to avoid conversion precision issues
+        // Use global constant fee
+        // The fee calculation will always return the constant fee regardless of these values
         Self::new_with_lamports(
-            DEFAULT_TARGET_LAMPORTS_PER_SIGNATURE,
+            CONSTANT_TRANSACTION_FEE_LAMPORTS,
             0,
             vec![],
         )

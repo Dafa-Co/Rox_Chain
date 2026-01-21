@@ -89,6 +89,14 @@ GEN_ARGS=(
   --faucet-pubkey "$("$SOLANA_BIN/solana-keygen" pubkey "$FAUCET")"
   --faucet-lamports "$FAUCET_LAMPORTS"
   --ledger "$LEDGER"
+  
+  # Constant fee configuration
+  # To change the fee, update CONSTANT_TRANSACTION_FEE_LAMPORTS in:
+  # sdk/program/src/fee_calculator.rs
+  # Current: 0.00001 ROX = 10,000 lamports
+  --target-lamports-per-signature 10000
+  --target-signatures-per-slot 0
+  --fee-burn-percentage 0
 
   # ---- Programs at genesis ----
   # Immutable programs via BPF Loader 2:
